@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    working_dir: /code/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
